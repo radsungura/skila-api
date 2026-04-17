@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const { connectToMongo, getDb } = require("./db");
 const app = express();
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 4000
 
 // app.use(cors({
 //   origin: /http:\/\/rad-pc/
