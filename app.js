@@ -10,14 +10,14 @@ const port = process.env.PORT || 4000
 // }));
 
 // Enable CORS for specific origins
-// const corsOptions = {
-//   origin: 'http://localhost:4200', //  Allowed origin
-//   optionsSuccessStatus: 200 // For legacy browser support
-// };
-// app.use(cors(corsOptions));
+const corsOptions = {
+  origin: 'https://skila.vercel.app/', //  Allowed origin
+  optionsSuccessStatus: 200 // For legacy browser support
+};
+app.use(cors(corsOptions));
 // default but not secure, all origin 
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 // Attach DB once
