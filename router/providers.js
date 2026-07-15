@@ -2,15 +2,17 @@
 const { MongoClient, ObjectId } = require('mongodb');
 const express = require("express");
 const router = express.Router();
+const { protect, authorize } = require('../middleware/auth');
 
-router.get('/providers', async (req, res) => {
+router.get('/providers', protect, authorize('client'), async (req, res) => {
   const db = req.db;
   const providersCollection = db.collection('providers');
   const providers  = await providersCollection.find({}).toArray();
+  console.log("providers", providers);
   res.send(providers);
 });
 
-router.get("/providers/:id", async (req, res) => {
+router.get("/providers/:id", protect, authorize('admin'), async (req, res) => {
   const db = req.db;
   const collection = db.collection('providers');
   const providers = await collection.findOne({ _id: new ObjectId(req.params.id) });
@@ -22,7 +24,7 @@ router.get("/providers/:id", async (req, res) => {
 
 // Add a new providers
 
-router.post('/providers', async (req, res) => {
+router.post('/providers', protect, authorize('admin'), async (req, res) => {
   const db = req.db;
   console.log(req);
   const collection = db.collection('providers');
@@ -32,7 +34,7 @@ router.post('/providers', async (req, res) => {
 
 // Update a providers by ID
 
-router.put('/providers/:id', async (req, res) => {
+router.put('/providers/:id', protect, authorize('admin'), async (req, res) => {
   const db = req.db;
   const collection = db.collection('providers');
   const result = await collection.updateOne({ _id: new ObjectId(req.params.id) },{ $set: req.body });
@@ -43,7 +45,7 @@ router.put('/providers/:id', async (req, res) => {
 
 // Delete a providers by ID
 
-router.delete('/providers/:id', async (req, res) => {
+router.delete('/providers/:id', protect, authorize('admin'), async (req, res) => {
   const db = req.db;
   const collection = db.collection('providers');
   const result = await collection.deleteOne({ _id: new ObjectId(req.params.id) });
